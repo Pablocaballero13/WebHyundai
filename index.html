@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hyundai i30N - Feel the Drive</title>
+  <link rel="icon" type="image/png" href="../Web Hyundai/unnamed.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: rgba(0, 44, 95, 0.6); /* Más transparente: 60% de opacidad */
+      padding: 1rem 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1001; /* Aseguramos que esté por encima del video */
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+      font-size: 1.1rem;
+    }
+
+    nav a:hover {
+      color: #00aad2;
+    }
+
+    .hero {
+      position: relative;
+      height: 100vh;
+      width: 100%;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .hero video {
+      position: fixed;
+      top: 0; /* El video debe empezar desde la parte superior de la ventana */
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1; /* Mantenemos el video en el fondo */
+    }
+
+    .hero div {
+      text-align: center;
+      color: white;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 3rem;
+      border-radius: 10px;
+      backdrop-filter: blur(10px);
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin: 0.5rem 0;
+    }
+
+    .hero a {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 1rem 2.5rem;
+      background: #00aad2;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 50px;
+      transition: all 0.3s;
+      text-transform: uppercase;
+    }
+
+    .hero a:hover {
+      background: #008ab2;
+      transform: scale(1.05);
+    }
+
+    section {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      margin-bottom: 2rem; /* Separación entre secciones */
+      position: relative;
+      z-index: 100; /* Asegura que el contenido esté por encima del video */
+    }
+    /* La primera sección después del hero necesita un margin-top para no quedar oculta por el header */
+    #ficha {
+        margin-top: 6rem; /* Ajusta este valor si tu header tiene una altura diferente */
+    }
+
+
+    h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: #002c5f;
+      text-transform: uppercase;
+    }
+
+    h3 {
+      color: #002c5f;
+      font-size: 1.5rem;
+      margin: 2rem 0 1rem;
+    }
+
+    /* La sección #Imagenes en sí misma */
+    #Imagenes {
+      background-color: #f5f5f5; /* Fondo para la sección completa de imágenes */
+      border-radius: 10px; /* Opcional: para darle un aspecto de bloque */
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Opcional: una sombra sutil */
+    }
+
+    /* Contenedor de las imágenes dentro de la sección #Imagenes */
+    /* Apuntamos al div con clase "Imagenes" que está dentro de la sección con ID "Imagenes" */
+    #Imagenes .Imagenes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Imágenes más pequeñas */
+      gap: 2rem;
+      margin-top: 2rem;
+      border-radius: 4%;
+      border-color: #002c5f;
+    }
+
+    .Imagenes img {
+      width: 100%;
+      height: 180px; /* Altura más pequeña para las imágenes */
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.3s;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .Imagenes img:hover {
+      transform: scale(1.05);
+    }
+
+    .ficha {
+      background: #f5f5f5; /* Fondo para esta sección */
+      border-radius: 10px;
+      padding: 3rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Sombra añadida */
+    }
+
+    .ficha ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .ficha li {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      border-left: 4px solid #00aad2;
+    }
+
+    .ficha strong {
+      color: #002c5f;
+    }
+
+    .especificaciones {
+      background: white; /* Fondo para esta sección */
+      border-radius: 10px; /* Opcional: para darle un aspecto de bloque */
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Opcional: una sombra sutil */
+    }
+
+    .especificaciones p {
+      text-align: justify;
+      margin-bottom: 1.5rem;
+      line-height: 1.8;
+    }
+
+    .contacto {
+      background: linear-gradient(135deg, #002c5f 0%, #00446a 100%);
+      color: white;
+      border-radius: 10px;
+      padding: 3rem;
+    }
+
+    .contacto h2 {
+      color: white;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    input, textarea {
+      padding: 1rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    button {
+      padding: 1rem 2rem;
+      background: #00aad2;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+    }
+
+    button:hover {
+      background: #008ab2;
+      transform: scale(1.05);
+    }
+
+    .web {
+      text-align: center;
+      background: #f5f5f5; /* Fondo para esta sección */
+      border-color:#002c5f ;
+      border-radius: 10px; /* Opcional: para darle un aspecto de bloque */
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Opcional: una sombra sutil */
+    }
+
+    .web p {
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+
+    .web a {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      background: #002c5f;
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+
+    .web a:hover {
+      background: #00446a;
+      transform: scale(1.05);
+    }
+
+    footer {
+      background: #002c5f;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      h2 {
+        font-size: 2rem;
+      }
+
+      .ficha ul {
+        grid-template-columns: 1fr;
+      }
+      /* Ajuste para que las imágenes de versiones se apilen en pantallas pequeñas */
+      #Imagenes .Imagenes {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <a href="#ficha">Ficha</a>
+      <a href="#Imagenes">Versiones</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <video autoplay muted loop playsinline>
+      <source src="hyundai-i30-n-highlights.mp4" type="video/mp4">
+    </video>
+    <div>
+      <h1>Cambia el momento</h1>
+      <p>Desde 35.000€</p>
+      <p>Con 4 años de mantenimientos gratuitos y sin compromiso de devolución</p>
+      <p>Financialo con Hyundai Finance hasta el 31/05/2025</p>
+      <a href="#contacto">Solicitar prueba</a>
+    </div>
+  </section>
+
+  <section id="ficha" class="ficha">
+    <h2>Ficha Técnica</h2>
+    <ul>
+      <li><strong>Motor:</strong> 2.0 T-GDi (turboalimentado, inyección directa)</li>
+      <li><strong>Potencia máxima:</strong> 280 CV (206 kW) a 5.500-6.000 rpm</li>
+      <li><strong>Aceleración:</strong> 0-100 km/h en 5.4 s</li>
+      <li><strong>Transmisión:</strong> Manual de 6 velocidades o DCT</li>
+      <li><strong>Tracción:</strong> Delantera con diferencial N Corner Carving</li>
+      <li><strong>Sistema N Grin Control:</strong> 5 modos de conducción</li>
+      <li><strong>Llantas:</strong> 19 pulgadas con neumáticos Pirelli P-Zero específicos</li>
+      <li><strong>Consumo Mixto:</strong> 8.0–8.5 l/100 km (según versión)</li>
+    </ul>
+  </section>
+
+  <section id="Imagenes"> <!-- Esta es la sección padre con el ID -->
+    <h2>Otras versiones del N mode</h2>
+    <div class="Imagenes"> <!-- Este es el div contenedor de las imágenes con la clase -->
+      <a href="https://www.hyundai.com/es/es/modelos/i30.html">
+      <img src="../Web Hyundai/haatchback.avif" alt="Hyundai Hatchback" title="Pincha en la imagen para obtener más información"/></a>
+      <a href="https://www.hyundai.com/es/es/modelos/i30-fastback.html">
+      <img src="../Web Hyundai/fastback.avif" alt="Hyundai Fastback" title="Pincha en la imagen para obtener más información" /></a>
+      <a href="https://www.hyundai.com/es/es/modelos/i20-n.html">
+      <img src="../Web Hyundai/i20n.avif" alt="Hyundai i20N" title="Pincha en la imagen para obtener más información"/></a>
+    </div>
+  </section>
+
+  <section id="contacto" class="contacto">
+    <h2>Solicita una prueba</h2>
+    <form>
+      <input type="text" placeholder="Nombre completo" required />
+      <input type="email" placeholder="Correo electrónico" required />
+      <textarea rows="4" placeholder="Mensaje o concesionario preferido"></textarea>
+      <button type="submit">Enviar</button>
+    </form>
+  </section>
+
+  <section id="especificaiones" class="especificaciones">
+    <h2>Otras especificaciones</h2>
+    <h3>Garantía de kilometraje ilimitado de 5 años.</h3>
+    <p>Como cada Hyundai, el i30 N se produce siguiendo los estándares más altos posibles. Respaldamos esa calidad con la garantía de kilometraje ilimitado de 5 años, para que puedas disfrutar de las cosas que más te importan en la vida sin tener que preocuparte por tu coche. Disfruta de la tranquilidad que te proporciona una de las garantías líderes del mercado, de serie con tu Hyundai.</p>
+    
+    <h3>Familia de alto rendimiento N: toda la emoción al volante.</h3>
+    <p>Los modelos i30 N e i30 Fastback N se unen al i20 N y al KONA N para aumentar la familia de alto rendimiento de Hyundai. Todos estos modelos te ofrecen un rendimiento perfecto para circuito además de usabilidad para el día a día sin que tengas que renunciar a diversión.</p>
+    
+    <h3>Un modelo increíble, llevado más allá.</h3>
+    <p>Desde el lanzamiento del galardonado i30 N, hemos seguido trabajando para mejorar este modelo. Con el progreso del exitoso i30 N TRC y los comentarios de la comunidad N en mente, hemos incluido cambios en la transmisión, funciones de alto rendimiento y un aumento de la potencia y el par.</p>
+    
+    <h3>Rendimiento elevado al siguiente nivel.</h3>
+    <p>La última generación de este modelo se basa en el éxito de su predecesor y ahora te ofrece materiales más ligeros para mejorar la agilidad en la conducción. La suspensión y la dirección han sido mejoradas para ofrecer un rendimiento más alto con ambas transmisiones. En el interior, disfrutarás de las últimas funciones de rendimiento y tecnología innovadora.</p>
+  </section>
+
+  <section id="web" class="web">
+    <h2>Más Información</h2>
+    <p>Para más información visitar la web oficial. Donde encontrarás una información más extensa de este modelo o cualquier otro de la marca, además de poder adquirir el modelo de vehículo que buscas.</p>
+    <a href="https://www.hyundai.com/es/es/modelos/i30-n.html">Web oficial</a>
+  </section>
+
+  <footer>
+    &copy; Copyright 2025 Hyundai Motor Company. All rights reserved.
+  </footer>
+
+</body>
+</html>
