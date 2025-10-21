@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hyundai i30N - Performance Engineering</title>
   <link rel="icon" type="image/png" href="Hy/unnamed.png">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -29,7 +30,7 @@
       line-height: 1.7;
       color: var(--text-dark);
       overflow-x: hidden;
-      background: var(--white);
+      background: var(--light-gray);
     }
 
     header {
@@ -53,19 +54,45 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 3rem;
       max-width: 1400px;
       margin: 0 auto;
       padding: 0 2rem;
     }
 
-    .nav-logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--white);
-      letter-spacing: 1px;
+    .nav-logo-link {
+      text-decoration: none;
       margin-right: auto;
+      transition: all 0.3s ease;
+      transform: perspective(1px) translateZ(0);
     }
+
+    .nav-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      
+      background: linear-gradient(45deg, var(--white) 30%, var(--accent-blue) 90%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 
+        0 0 7px rgba(255, 255, 255, 0.6),
+        0 0 12px rgba(0, 170, 210, 0.4);
+    }
+
+    .nav-logo-link:hover .nav-logo {
+      text-shadow: 
+        0 0 10px rgba(255, 255, 255, 0.8), 
+        0 0 20px rgba(0, 170, 210, 0.6),
+        3px 3px 12px rgba(0,0,0,0.4);
+    }
+    
+    .nav-logo-link:hover {
+        transform: scale(1.05) perspective(1px) translateZ(0);
+    }
+
 
     nav a {
       color: rgba(255, 255, 255, 0.9);
@@ -76,6 +103,7 @@
       letter-spacing: 0.5px;
       position: relative;
       padding: 0.5rem 0;
+      margin: 0 1.5rem;
     }
 
     nav a::after {
@@ -97,6 +125,23 @@
       width: 100%;
     }
 
+    nav a + a::before {
+      content: '';
+      position: absolute;
+      left: -1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 60%;
+      background-color: rgba(255, 255, 255, 0.3);
+      transition: background-color 0.3s ease;
+    }
+
+    nav a:hover + a::before,
+    nav a.active + a::before {
+        background-color: rgba(255, 255, 255, 0.6);
+    }
+
     .hero {
       position: relative;
       height: 100vh;
@@ -105,6 +150,7 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      margin-bottom: 4rem;
     }
 
     .hero::before {
@@ -114,7 +160,6 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%);
       z-index: 1;
     }
 
@@ -132,7 +177,6 @@
     .hero-content {
       text-align: center;
       color: var(--white);
-      background: rgba(0, 0, 0, 0.4);
       padding: 4rem 3rem;
       border-radius: 16px;
       backdrop-filter: blur(20px);
@@ -155,6 +199,7 @@
     }
 
     .hero h1 {
+      font-family: 'Orbitron', sans-serif;
       font-size: 4rem;
       margin-bottom: 1.5rem;
       text-transform: uppercase;
@@ -174,9 +219,10 @@
     }
 
     .hero-price {
+      font-family: 'Orbitron', sans-serif;
       font-size: 2rem;
       font-weight: 700;
-      color: var(--accent-blue);
+      color: #0087a8; /* Azul ligeramente más oscuro que var(--accent-blue) */
       margin: 1rem 0;
     }
 
@@ -213,14 +259,16 @@
     section {
       padding: 6rem 2rem;
       max-width: 1400px;
-      margin: 0 auto;
+      margin: 0 auto 4rem auto;
       position: relative;
-      z-index: 100;
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
     }
 
     #ficha {
-      margin-top: 0;
-      background: var(--light-gray);
+      background: var(--white);
+      position: relative;
+      z-index: 2;
     }
 
     h2 {
@@ -256,9 +304,7 @@
     }
 
     .ficha {
-      background: var(--light-gray);
-      border-radius: 16px;
-      padding: 4rem;
+      background: var(--white);
     }
 
     .ficha ul {
@@ -307,7 +353,6 @@
 
     #Imagenes {
       background: var(--white);
-      padding: 6rem 2rem;
     }
 
     .imagenes-grid {
@@ -387,9 +432,7 @@
     }
 
     .especificaciones {
-      background: var(--light-gray);
-      border-radius: 16px;
-      padding: 4rem;
+      background: var(--white);
     }
 
     .especificaciones p {
@@ -401,20 +444,48 @@
     }
 
     .spec-highlight {
-      background: var(--white);
+      background: var(--light-gray);
       padding: 2.5rem;
       border-radius: 12px;
       margin: 2rem 0;
       box-shadow: var(--shadow-sm);
       border-left: 4px solid var(--accent-blue);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .spec-highlight::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-blue), var(--primary-blue));
+      transition: all 0.3s ease;
+      z-index: 0;
+    }
+
+    .spec-highlight:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .spec-highlight:hover::before {
+      width: 100%;
+      opacity: 0.1;
+    }
+
+    .spec-highlight h3,
+    .spec-highlight p {
+      position: relative;
+      z-index: 1;
     }
 
     .contacto {
       background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
       color: var(--white);
-      border-radius: 16px;
-      padding: 4rem;
-      box-shadow: var(--shadow-lg);
     }
 
     .contacto h2 {
@@ -474,7 +545,6 @@
     .web {
       text-align: center;
       background: var(--white);
-      padding: 6rem 2rem;
     }
 
     .web p {
@@ -528,6 +598,7 @@
 
       section {
         padding: 4rem 1.5rem;
+        margin-bottom: 3rem;
       }
     }
 
@@ -554,7 +625,7 @@
         gap: 1rem;
       }
 
-      .nav-logo {
+      .nav-logo-link {
         margin-right: 0;
         margin-bottom: 0.5rem;
       }
@@ -580,7 +651,9 @@
 
   <header id="header">
     <nav>
-      <div class="nav-logo">i30N</div>
+      <a href="https://www.hyundai.com/es/es/modelos/i30-n.html" class="nav-logo-link">
+        <div class="nav-logo">i30N</div>
+      </a>
       <a href="#ficha">Especificaciones</a>
       <a href="#Imagenes">Gama N</a>
       <a href="#especificaciones">Tecnología</a>
@@ -607,6 +680,7 @@
     <ul>
       <li><strong>Motor:</strong> 2.0 T-GDi (turboalimentado, inyección directa)</li>
       <li><strong>Potencia máxima:</strong> 280 CV (206 kW) a 5.500-6.000 rpm</li>
+      <li><strong>Par máximo:</strong> 392 Nm a 2.100-4.700 rpm</li>
       <li><strong>Aceleración:</strong> 0-100 km/h en 5.4 s</li>
       <li><strong>Transmisión:</strong> Manual de 6 velocidades o DCT</li>
       <li><strong>Tracción:</strong> Delantera con diferencial N Corner Carving</li>
@@ -616,7 +690,7 @@
     </ul>
   </section>
 
-  <section id="Imagenes"> 
+  <section id="Imagenes">
     <h2>Familia N Performance</h2>
     <div class="imagenes-grid">
       <a href="https://www.hyundai.com/es/es/modelos/i30.html" class="imagen-card">
@@ -645,7 +719,7 @@
 
   <section id="especificaciones" class="especificaciones">
     <h2>Tecnología y Performance</h2>
-    
+
     <div class="spec-highlight">
       <h3>Garantía de kilometraje ilimitado de 5 años</h3>
       <p>Como cada Hyundai, el i30 N se produce siguiendo los estándares más altos posibles. Respaldamos esa calidad con la garantía de kilometraje ilimitado de 5 años, para que puedas disfrutar de las cosas que más te importan en la vida sin tener que preocuparte por tu coche. Disfruta de la tranquilidad que te proporciona una de las garantías líderes del mercado, de serie con tu Hyundai.</p>
@@ -690,7 +764,6 @@
   </footer>
 
   <script>
-    // Efecto header al hacer scroll
     window.addEventListener('scroll', () => {
       const header = document.getElementById('header');
       if (window.scrollY > 100) {
@@ -700,7 +773,6 @@
       }
     });
 
-    // Smooth scroll para los enlaces de navegación
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
