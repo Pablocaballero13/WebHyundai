@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hyundai i30N - Feel the Drive</title>
+  <title>Hyundai i30N - Performance Engineering</title>
   <link rel="icon" type="image/png" href="Hy/unnamed.png">
   <style>
     * {
@@ -12,55 +12,110 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --primary-blue: #002c5f;
+      --accent-blue: #00aad2;
+      --dark-blue: #001a3d;
+      --light-gray: #f8f9fa;
+      --white: #ffffff;
+      --text-dark: #1a1a1a;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.16);
+    }
+
     body {
-      font-family: 'Arial', sans-serif;
-      line-height: 1.6;
-      color: #333;
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.7;
+      color: var(--text-dark);
       overflow-x: hidden;
+      background: var(--white);
     }
 
     header {
-      background: rgba(0, 44, 95, 0.6); /* Más transparente: 60% de opacidad */
-      padding: 1rem 0;
+      background: linear-gradient(180deg, rgba(0, 44, 95, 0.95) 0%, rgba(0, 44, 95, 0.85) 100%);
+      padding: 1.2rem 0;
       position: fixed;
       width: 100%;
       top: 0;
-      z-index: 1001; /* Aseguramos que esté por encima del video */
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 1001;
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(15px);
+      transition: all 0.3s ease;
+    }
+
+    header.scrolled {
+      padding: 0.8rem 0;
+      background: rgba(0, 44, 95, 0.98);
     }
 
     nav {
       display: flex;
       justify-content: center;
-      gap: 2rem;
-      max-width: 1200px;
+      align-items: center;
+      gap: 3rem;
+      max-width: 1400px;
       margin: 0 auto;
       padding: 0 2rem;
     }
 
+    .nav-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 1px;
+      margin-right: auto;
+    }
+
     nav a {
-      color: white;
+      color: rgba(255, 255, 255, 0.9);
       text-decoration: none;
-      font-weight: 600;
-      transition: color 0.3s;
-      font-size: 1.1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      position: relative;
+      padding: 0.5rem 0;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent-blue);
+      transition: width 0.3s ease;
     }
 
     nav a:hover {
-      color: #00aad2;
+      color: var(--white);
+    }
+
+    nav a:hover::after {
+      width: 100%;
     }
 
     .hero {
       position: relative;
       height: 100vh;
       width: 100%;
-      left: 0;
-      right: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      padding: 0;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%);
+      z-index: 1;
     }
 
     .hero video {
@@ -71,233 +126,427 @@
       height: 100%;
       min-height: 100vh;
       object-fit: cover;
-      z-index: -1;
-    
+      z-index: 0;
     }
 
-    .hero div {
+    .hero-content {
       text-align: center;
-      color: white;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 3rem;
-      border-radius: 10px;
-      backdrop-filter: blur(10px);
+      color: var(--white);
+      background: rgba(0, 0, 0, 0.4);
+      padding: 4rem 3rem;
+      border-radius: 16px;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       position: relative;
-      z-index: 1;
+      z-index: 2;
+      max-width: 800px;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .hero h1 {
-      font-size: 3.5rem;
-      margin-bottom: 1rem;
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
       text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 4px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 0%, #00aad2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    .hero-price {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+      margin: 1rem 0;
     }
 
     .hero p {
-      font-size: 1.2rem;
-      margin: 0.5rem 0;
+      font-size: 1.1rem;
+      margin: 0.8rem 0;
+      opacity: 0.95;
+      line-height: 1.6;
     }
 
-    .hero a {
-      display: inline-block;
-      margin-top: 2rem;
-      padding: 1rem 2.5rem;
-      background: #00aad2;
-      color: white;
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 2.5rem;
+      padding: 1.2rem 3rem;
+      background: linear-gradient(135deg, var(--accent-blue) 0%, #0090b8 100%);
+      color: var(--white);
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 600;
       border-radius: 50px;
-      transition: all 0.3s;
+      transition: all 0.4s ease;
       text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 8px 24px rgba(0, 170, 210, 0.3);
     }
 
-    .hero a:hover {
-      background: #008ab2;
-      transform: scale(1.05);
+    .hero-cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0, 170, 210, 0.5);
+      background: linear-gradient(135deg, #0090b8 0%, var(--accent-blue) 100%);
     }
 
     section {
-      padding: 4rem 2rem;
-      max-width: 1200px;
+      padding: 6rem 2rem;
+      max-width: 1400px;
       margin: 0 auto;
-      margin-bottom: 2rem; /* Separación entre secciones */
       position: relative;
-      z-index: 100; /* Asegura que el contenido esté por encima del video */
-    }
-    /* La primera sección después del hero necesita un margin-top para no quedar oculta por el header */
-    #ficha {
-        margin-top: 6rem; /* Ajusta este valor si tu header tiene una altura diferente */
+      z-index: 100;
     }
 
+    #ficha {
+      margin-top: 0;
+      background: var(--light-gray);
+    }
 
     h2 {
       text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
-      color: #002c5f;
+      font-size: 3rem;
+      margin-bottom: 3rem;
+      color: var(--primary-blue);
       text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 700;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-blue), var(--primary-blue));
+      border-radius: 2px;
     }
 
     h3 {
-      color: #002c5f;
-      font-size: 1.5rem;
-      margin: 2rem 0 1rem;
-    }
-
-    /* La sección #Imagenes en sí misma */
-    #Imagenes {
-      background-color: #f5f5f5; /* Fondo para la sección completa de imágenes */
-      border-radius: 10px; /* Opcional: para darle un aspecto de bloque */
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Opcional: una sombra sutil */
-    }
-
-    /* Contenedor de las imágenes dentro de la sección #Imagenes */
-    /* Apuntamos al div con clase "Imagenes" que está dentro de la sección con ID "Imagenes" */
-    #Imagenes .Imagenes {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Imágenes más pequeñas */
-      gap: 2rem;
-      margin-top: 2rem;
-      border-radius: 4%;
-      border-color: #002c5f;
-    }
-
-    .Imagenes img {
-      width: 100%;
-      height: 180px; /* Altura más pequeña para las imágenes */
-      object-fit: cover;
-      border-radius: 10px;
-      transition: transform 0.3s;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-
-    .Imagenes img:hover {
-      transform: scale(1.05);
+      color: var(--primary-blue);
+      font-size: 1.8rem;
+      margin: 3rem 0 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
 
     .ficha {
-      background: #f5f5f5; /* Fondo para esta sección */
-      border-radius: 10px;
-      padding: 3rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Sombra añadida */
+      background: var(--light-gray);
+      border-radius: 16px;
+      padding: 4rem;
     }
 
     .ficha ul {
       list-style: none;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 2rem;
     }
 
     .ficha li {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 8px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-      border-left: 4px solid #00aad2;
+      background: var(--white);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+      border-left: 5px solid var(--accent-blue);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ficha li::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(0, 170, 210, 0.05), transparent);
+      transition: width 0.3s ease;
+    }
+
+    .ficha li:hover {
+      transform: translateX(8px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .ficha li:hover::before {
+      width: 100%;
     }
 
     .ficha strong {
-      color: #002c5f;
+      color: var(--primary-blue);
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    #Imagenes {
+      background: var(--white);
+      padding: 6rem 2rem;
+    }
+
+    .imagenes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+      margin-top: 3rem;
+    }
+
+    .imagen-card {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .imagen-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(0, 44, 95, 0.8) 100%);
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .imagen-card:hover::before {
+      opacity: 1;
+    }
+
+    .imagen-card:hover {
+      transform: translateY(-12px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .imagen-card img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .imagen-card:hover img {
+      transform: scale(1.1);
+    }
+
+    .imagen-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem;
+      color: var(--white);
+      z-index: 2;
+      transform: translateY(100%);
+      transition: transform 0.4s ease;
+    }
+
+    .imagen-card:hover .imagen-overlay {
+      transform: translateY(0);
+    }
+
+    .imagen-overlay h4 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .imagen-overlay p {
+      font-size: 0.95rem;
+      opacity: 0.9;
     }
 
     .especificaciones {
-      background: white; /* Fondo para esta sección */
-      border-radius: 10px; /* Opcional: para darle un aspecto de bloque */
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Opcional: una sombra sutil */
+      background: var(--light-gray);
+      border-radius: 16px;
+      padding: 4rem;
     }
 
     .especificaciones p {
       text-align: justify;
-      margin-bottom: 1.5rem;
-      line-height: 1.8;
+      margin-bottom: 2rem;
+      line-height: 1.9;
+      font-size: 1.05rem;
+      color: #333;
+    }
+
+    .spec-highlight {
+      background: var(--white);
+      padding: 2.5rem;
+      border-radius: 12px;
+      margin: 2rem 0;
+      box-shadow: var(--shadow-sm);
+      border-left: 4px solid var(--accent-blue);
     }
 
     .contacto {
-      background: linear-gradient(135deg, #002c5f 0%, #00446a 100%);
-      color: white;
-      border-radius: 10px;
-      padding: 3rem;
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+      color: var(--white);
+      border-radius: 16px;
+      padding: 4rem;
+      box-shadow: var(--shadow-lg);
     }
 
     .contacto h2 {
-      color: white;
+      color: var(--white);
+    }
+
+    .contacto h2::after {
+      background: linear-gradient(90deg, var(--accent-blue), var(--white));
     }
 
     form {
-      max-width: 600px;
+      max-width: 700px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 1.8rem;
     }
 
     input, textarea {
-      padding: 1rem;
-      border: none;
-      border-radius: 5px;
+      padding: 1.2rem 1.5rem;
+      border: 2px solid transparent;
+      border-radius: 10px;
       font-size: 1rem;
       font-family: inherit;
+      background: rgba(255, 255, 255, 0.95);
+      transition: all 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent-blue);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(0, 170, 210, 0.1);
     }
 
     button {
-      padding: 1rem 2rem;
-      background: #00aad2;
-      color: white;
+      padding: 1.2rem 3rem;
+      background: linear-gradient(135deg, var(--accent-blue) 0%, #0090b8 100%);
+      color: var(--white);
       border: none;
       border-radius: 50px;
       font-size: 1.1rem;
-      font-weight: bold;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: all 0.4s ease;
       text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 8px 24px rgba(0, 170, 210, 0.3);
     }
 
     button:hover {
-      background: #008ab2;
-      transform: scale(1.05);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0, 170, 210, 0.5);
+      background: linear-gradient(135deg, #0090b8 0%, var(--accent-blue) 100%);
     }
 
     .web {
       text-align: center;
-      background: #f5f5f5; /* Fondo para esta sección */
-      border-color:#002c5f ;
-      border-radius: 10px; /* Opcional: para darle un aspecto de bloque */
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Opcional: una sombra sutil */
+      background: var(--white);
+      padding: 6rem 2rem;
     }
 
     .web p {
-      margin-bottom: 2rem;
-      font-size: 1.1rem;
+      margin-bottom: 2.5rem;
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.8;
+      color: #555;
     }
 
     .web a {
-      display: inline-block;
-      padding: 1rem 2.5rem;
-      background: #002c5f;
-      color: white;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1.2rem 3rem;
+      background: var(--primary-blue);
+      color: var(--white);
       text-decoration: none;
       border-radius: 50px;
-      font-weight: bold;
-      transition: all 0.3s;
+      font-weight: 600;
+      transition: all 0.4s ease;
+      letter-spacing: 1px;
+      box-shadow: var(--shadow-md);
     }
 
     .web a:hover {
-      background: #00446a;
-      transform: scale(1.05);
+      background: var(--dark-blue);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
     }
 
     footer {
-      background: #002c5f;
-      color: white;
+      background: var(--dark-blue);
+      color: rgba(255, 255, 255, 0.8);
       text-align: center;
-      padding: 2rem;
-      font-size: 0.9rem;
+      padding: 3rem 2rem;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 1024px) {
+      .hero h1 {
+        font-size: 3rem;
+      }
+
+      h2 {
+        font-size: 2.5rem;
+      }
+
+      section {
+        padding: 4rem 1.5rem;
+      }
     }
 
     @media (max-width: 768px) {
       .hero h1 {
-        font-size: 2rem;
+        font-size: 2.2rem;
+        letter-spacing: 2px;
+      }
+
+      .hero-content {
+        padding: 2.5rem 2rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.2rem;
+      }
+
+      .hero-price {
+        font-size: 1.6rem;
       }
 
       nav {
@@ -305,26 +554,36 @@
         gap: 1rem;
       }
 
+      .nav-logo {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+      }
+
       h2 {
         font-size: 2rem;
       }
 
-      .ficha ul {
+      .ficha ul,
+      .imagenes-grid {
         grid-template-columns: 1fr;
       }
-      /* Ajuste para que las imágenes de versiones se apilen en pantallas pequeñas */
-      #Imagenes .Imagenes {
-        grid-template-columns: 1fr;
+
+      .ficha,
+      .especificaciones,
+      .contacto {
+        padding: 2.5rem 1.5rem;
       }
     }
   </style>
 </head>
 <body>
 
-  <header>
+  <header id="header">
     <nav>
-      <a href="#ficha">Ficha</a>
-      <a href="#Imagenes">Versiones</a>
+      <div class="nav-logo">i30N</div>
+      <a href="#ficha">Especificaciones</a>
+      <a href="#Imagenes">Gama N</a>
+      <a href="#especificaciones">Tecnología</a>
       <a href="#contacto">Contacto</a>
     </nav>
   </header>
@@ -333,17 +592,18 @@
     <video autoplay muted loop playsinline>
       <source src="Hy/hyundai-i30-n-highlights - Compressed with FlexClip.mp4" type="video/mp4">
     </video>
-    <div>
+    <div class="hero-content">
       <h1>Cambia el momento</h1>
-      <p>Desde 35.000€</p>
+      <p class="hero-subtitle">Performance Engineering</p>
+      <p class="hero-price">Desde 35.000€</p>
       <p>Con 4 años de mantenimientos gratuitos y sin compromiso de devolución</p>
       <p>Financialo con Hyundai Finance hasta el 31/05/2025</p>
-      <a href="#contacto">Solicitar prueba</a>
+      <a href="#contacto" class="hero-cta">Solicitar prueba →</a>
     </div>
   </section>
 
   <section id="ficha" class="ficha">
-    <h2>Ficha Técnica</h2>
+    <h2>Especificaciones Técnicas</h2>
     <ul>
       <li><strong>Motor:</strong> 2.0 T-GDi (turboalimentado, inyección directa)</li>
       <li><strong>Potencia máxima:</strong> 280 CV (206 kW) a 5.500-6.000 rpm</li>
@@ -357,51 +617,103 @@
   </section>
 
   <section id="Imagenes"> 
-    <h2>Otras versiones del N mode</h2>
-    <div class="Imagenes"> 
-      <a href="https://www.hyundai.com/es/es/modelos/i30.html">
-      <img src="Hy/haatchback.avif" alt="Hyundai Hatchback" title="Pincha en la imagen para obtener más información"/></a>
-      <a href="https://www.hyundai.com/es/es/modelos/i30-fastback.html">
-      <img src="Hy/fastback.avif" alt="Hyundai Fastback" title="Pincha en la imagen para obtener más información" /></a>
-      <a href="https://www.hyundai.com/es/es/modelos/i20-n.html">
-      <img src="Hy/i20n.avif" alt="Hyundai i20N" title="Pincha en la imagen para obtener más información"/></a>
+    <h2>Familia N Performance</h2>
+    <div class="imagenes-grid">
+      <a href="https://www.hyundai.com/es/es/modelos/i30.html" class="imagen-card">
+        <img src="Hy/haatchback.avif" alt="Hyundai Hatchback" />
+        <div class="imagen-overlay">
+          <h4>i30 Hatchback</h4>
+          <p>Diseño versátil con tecnología avanzada</p>
+        </div>
+      </a>
+      <a href="https://www.hyundai.com/es/es/modelos/i30-fastback.html" class="imagen-card">
+        <img src="Hy/fastback.avif" alt="Hyundai Fastback" />
+        <div class="imagen-overlay">
+          <h4>i30 Fastback N</h4>
+          <p>Elegancia deportiva y rendimiento</p>
+        </div>
+      </a>
+      <a href="https://www.hyundai.com/es/es/modelos/i20-n.html" class="imagen-card">
+        <img src="Hy/i20n.avif" alt="Hyundai i20N" />
+        <div class="imagen-overlay">
+          <h4>i20 N</h4>
+          <p>Pura emoción en formato compacto</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section id="especificaciones" class="especificaciones">
+    <h2>Tecnología y Performance</h2>
+    
+    <div class="spec-highlight">
+      <h3>Garantía de kilometraje ilimitado de 5 años</h3>
+      <p>Como cada Hyundai, el i30 N se produce siguiendo los estándares más altos posibles. Respaldamos esa calidad con la garantía de kilometraje ilimitado de 5 años, para que puedas disfrutar de las cosas que más te importan en la vida sin tener que preocuparte por tu coche. Disfruta de la tranquilidad que te proporciona una de las garantías líderes del mercado, de serie con tu Hyundai.</p>
+    </div>
+
+    <div class="spec-highlight">
+      <h3>Familia de alto rendimiento N: toda la emoción al volante</h3>
+      <p>Los modelos i30 N e i30 Fastback N se unen al i20 N y al KONA N para aumentar la familia de alto rendimiento de Hyundai. Todos estos modelos te ofrecen un rendimiento perfecto para circuito además de usabilidad para el día a día sin que tengas que renunciar a diversión.</p>
+    </div>
+
+    <div class="spec-highlight">
+      <h3>Un modelo increíble, llevado más allá</h3>
+      <p>Desde el lanzamiento del galardonado i30 N, hemos seguido trabajando para mejorar este modelo. Con el progreso del exitoso i30 N TRC y los comentarios de la comunidad N en mente, hemos incluido cambios en la transmisión, funciones de alto rendimiento y un aumento de la potencia y el par.</p>
+    </div>
+
+    <div class="spec-highlight">
+      <h3>Rendimiento elevado al siguiente nivel</h3>
+      <p>La última generación de este modelo se basa en el éxito de su predecesor y ahora te ofrece materiales más ligeros para mejorar la agilidad en la conducción. La suspensión y la dirección han sido mejoradas para ofrecer un rendimiento más alto con ambas transmisiones. En el interior, disfrutarás de las últimas funciones de rendimiento y tecnología innovadora.</p>
     </div>
   </section>
 
   <section id="contacto" class="contacto">
-    <h2>Solicita una prueba</h2>
+    <h2>Solicita una prueba de conducción</h2>
     <form>
       <input type="text" placeholder="Nombre completo" required />
       <input type="email" placeholder="Correo electrónico" required />
-      <textarea rows="4" placeholder="Mensaje o concesionario preferido"></textarea>
-      <button type="submit">Enviar</button>
+      <input type="tel" placeholder="Teléfono de contacto" />
+      <textarea rows="5" placeholder="Mensaje o concesionario preferido"></textarea>
+      <button type="submit">Enviar solicitud</button>
     </form>
   </section>
 
-  <section id="especificaiones" class="especificaciones">
-    <h2>Otras especificaciones</h2>
-    <h3>Garantía de kilometraje ilimitado de 5 años.</h3>
-    <p>Como cada Hyundai, el i30 N se produce siguiendo los estándares más altos posibles. Respaldamos esa calidad con la garantía de kilometraje ilimitado de 5 años, para que puedas disfrutar de las cosas que más te importan en la vida sin tener que preocuparte por tu coche. Disfruta de la tranquilidad que te proporciona una de las garantías líderes del mercado, de serie con tu Hyundai.</p>
-    
-    <h3>Familia de alto rendimiento N: toda la emoción al volante.</h3>
-    <p>Los modelos i30 N e i30 Fastback N se unen al i20 N y al KONA N para aumentar la familia de alto rendimiento de Hyundai. Todos estos modelos te ofrecen un rendimiento perfecto para circuito además de usabilidad para el día a día sin que tengas que renunciar a diversión.</p>
-    
-    <h3>Un modelo increíble, llevado más allá.</h3>
-    <p>Desde el lanzamiento del galardonado i30 N, hemos seguido trabajando para mejorar este modelo. Con el progreso del exitoso i30 N TRC y los comentarios de la comunidad N en mente, hemos incluido cambios en la transmisión, funciones de alto rendimiento y un aumento de la potencia y el par.</p>
-    
-    <h3>Rendimiento elevado al siguiente nivel.</h3>
-    <p>La última generación de este modelo se basa en el éxito de su predecesor y ahora te ofrece materiales más ligeros para mejorar la agilidad en la conducción. La suspensión y la dirección han sido mejoradas para ofrecer un rendimiento más alto con ambas transmisiones. En el interior, disfrutarás de las últimas funciones de rendimiento y tecnología innovadora.</p>
-  </section>
-
   <section id="web" class="web">
-    <h2>Más Información</h2>
-    <p>Para más información visitar la web oficial. Donde encontrarás una información más extensa de este modelo o cualquier otro de la marca, además de poder adquirir el modelo de vehículo que buscas.</p>
-    <a href="https://www.hyundai.com/es/es/modelos/i30-n.html">Web oficial</a>
+    <h2>Descubre más</h2>
+    <p>Para más información visita la web oficial de Hyundai. Encontrarás información detallada de este modelo y toda la gama, además de poder configurar y solicitar el vehículo que buscas con todas las opciones disponibles.</p>
+    <a href="https://www.hyundai.com/es/es/modelos/i30-n.html">Visitar web oficial →</a>
   </section>
 
   <footer>
-    &copy; Copyright 2025 Hyundai Motor Company. All rights reserved.
+    <p>&copy; 2025 Hyundai Motor Company. Todos los derechos reservados.</p>
+    <p style="margin-top: 0.5rem; opacity: 0.7;">Desarrollado por Pablo Caballero</p>
   </footer>
+
+  <script>
+    // Efecto header al hacer scroll
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('header');
+      if (window.scrollY > 100) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Smooth scroll para los enlaces de navegación
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
 
 </body>
 </html>
