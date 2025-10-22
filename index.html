@@ -7,12 +7,6 @@
   <link rel="icon" type="image/png" href="Hy/unnamed.png">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     :root {
       --primary-blue: #002c5f;
       --accent-blue: #00aad2;
@@ -26,6 +20,9 @@
     }
 
     body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
       font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
       line-height: 1.7;
       color: var(--text-dark);
@@ -72,7 +69,6 @@
       font-weight: 900;
       letter-spacing: 3px;
       text-transform: uppercase;
-      
       background: linear-gradient(45deg, var(--white) 30%, var(--accent-blue) 90%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -92,7 +88,6 @@
     .nav-logo-link:hover {
         transform: scale(1.05) perspective(1px) translateZ(0);
     }
-
 
     nav a {
       color: rgba(255, 255, 255, 0.9);
@@ -222,7 +217,7 @@
       font-family: 'Orbitron', sans-serif;
       font-size: 2rem;
       font-weight: 700;
-      color: #0087a8; /* Azul ligeramente más oscuro que var(--accent-blue) */
+      color: #0087a8;
       margin: 1rem 0;
     }
 
@@ -630,6 +625,15 @@
         margin-bottom: 0.5rem;
       }
 
+      nav a {
+        margin: 0 0.8rem;
+        font-size: 0.9rem;
+      }
+
+      nav a + a::before {
+        left: -0.8rem;
+      }
+
       h2 {
         font-size: 2rem;
       }
@@ -641,8 +645,77 @@
 
       .ficha,
       .especificaciones,
-      .contacto {
+      .contacto,
+      .web {
         padding: 2.5rem 1.5rem;
+      }
+
+      .imagen-card img {
+        height: 220px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 1.8rem;
+        letter-spacing: 1px;
+      }
+      .hero-subtitle, .hero-price {
+        font-size: 1.1rem;
+      }
+      .hero p {
+        font-size: 0.95rem;
+      }
+      .hero-cta {
+        padding: 1rem 2rem;
+        font-size: 0.9rem;
+      }
+      nav {
+        padding: 0 1rem;
+      }
+      .nav-logo {
+        font-size: 1.8rem;
+      }
+      nav a {
+        margin: 0 0.5rem;
+        font-size: 0.85rem;
+      }
+      nav a + a::before {
+        left: -0.5rem;
+        height: 50%;
+      }
+      h2 {
+        font-size: 1.7rem;
+        margin-bottom: 2rem;
+      }
+      h3 {
+        font-size: 1.5rem;
+      }
+      .ficha ul {
+        gap: 1rem;
+      }
+      .ficha li {
+        padding: 1.5rem;
+      }
+      .imagen-card img {
+        height: 180px;
+      }
+      .imagen-overlay h4 {
+        font-size: 1.1rem;
+      }
+      .imagen-overlay p {
+        font-size: 0.85rem;
+      }
+      input, textarea, button {
+        padding: 1rem 1.2rem;
+        font-size: 0.95rem;
+      }
+      .web p {
+        font-size: 1rem;
+      }
+      .web a {
+        padding: 1rem 2rem;
+        font-size: 0.9rem;
       }
     }
   </style>
